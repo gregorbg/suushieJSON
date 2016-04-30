@@ -1,15 +1,14 @@
-package com.suushiemaniac.util.json.lang;
+package com.suushiemaniac.lang.json.lang;
 
-import com.suushiemaniac.util.json.value.JsonArray;
-import com.suushiemaniac.util.json.value.JsonObject;
-import com.suushiemaniac.util.json.lang.antlr.JSONBaseVisitor;
-import com.suushiemaniac.util.json.lang.antlr.JSONParser;
-import com.suushiemaniac.util.json.value.*;
+import com.suushiemaniac.lang.json.lang.antlr.JSONBaseVisitor;
+import com.suushiemaniac.lang.json.lang.antlr.JSONParser;
+import com.suushiemaniac.lang.json.value.*;
+import com.suushiemaniac.lang.json.value.JsonArray;
+import com.suushiemaniac.lang.json.value.JsonObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 public class JsonTypeReader extends JSONBaseVisitor<JSONType> {

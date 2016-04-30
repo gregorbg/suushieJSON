@@ -1,11 +1,11 @@
-package com.suushiemaniac.util.json.lang;
+package com.suushiemaniac.lang.json.lang;
 
-import com.suushiemaniac.util.json.JSON;
-import com.suushiemaniac.util.json.lang.antlr.JSONBaseVisitor;
-import com.suushiemaniac.util.json.lang.antlr.JSONLexer;
-import com.suushiemaniac.util.json.lang.antlr.JSONParser;
-import com.suushiemaniac.util.json.value.JSONType;
-import com.suushiemaniac.util.json.value.JsonElement;
+import com.suushiemaniac.lang.json.JSON;
+import com.suushiemaniac.lang.json.lang.antlr.JSONBaseVisitor;
+import com.suushiemaniac.lang.json.lang.antlr.JSONLexer;
+import com.suushiemaniac.lang.json.lang.antlr.JSONParser;
+import com.suushiemaniac.lang.json.value.JSONType;
+import com.suushiemaniac.lang.json.value.JsonElement;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;

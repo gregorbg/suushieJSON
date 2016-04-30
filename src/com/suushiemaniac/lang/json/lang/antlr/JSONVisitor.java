@@ -1,5 +1,5 @@
 // Generated from /jvdocs/suushieJSON/src/com/suushiemaniac/util/json/lang/res/JSON.g4 by ANTLR 4.5.1
-package com.suushiemaniac.util.json.lang.antlr;
+package com.suushiemaniac.lang.json.lang.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

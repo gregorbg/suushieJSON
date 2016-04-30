@@ -1,4 +1,4 @@
-package com.suushiemaniac.util.json.value;
+package com.suushiemaniac.lang.json.value;
 
 public class JsonInteger extends JsonNumber {
     public JsonInteger(Number value) {

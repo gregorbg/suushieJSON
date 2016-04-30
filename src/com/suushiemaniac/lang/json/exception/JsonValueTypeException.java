@@ -1,4 +1,4 @@
-package com.suushiemaniac.util.json.exception;
+package com.suushiemaniac.lang.json.exception;
 
 public class JsonValueTypeException extends RuntimeException {
 }

@@ -1,7 +1,7 @@
-package com.suushiemaniac.util.json.value;
+package com.suushiemaniac.lang.json.value;
 
-import com.suushiemaniac.util.json.StringUtils;
-import com.suushiemaniac.util.json.exception.JsonNotIterableException;
+import com.suushiemaniac.lang.json.util.StringUtils;
+import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package com.suushiemaniac.util.json;
+package com.suushiemaniac.lang.json.util;
 
 public class StringUtils {
     public static int compare(String s1, String s2) {

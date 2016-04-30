@@ -1,8 +1,8 @@
-package com.suushiemaniac.util.json;
+package com.suushiemaniac.lang.json;
 
-import com.suushiemaniac.util.json.lang.JsonReader;
-import com.suushiemaniac.util.json.value.JSONType;
-import com.suushiemaniac.util.json.value.JsonElement;
+import com.suushiemaniac.lang.json.lang.JsonReader;
+import com.suushiemaniac.lang.json.value.JSONType;
+import com.suushiemaniac.lang.json.value.JsonElement;
 
 import java.util.Iterator;
 

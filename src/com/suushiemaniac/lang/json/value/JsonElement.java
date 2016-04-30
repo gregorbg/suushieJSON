@@ -1,4 +1,4 @@
-package com.suushiemaniac.util.json.value;
+package com.suushiemaniac.lang.json.value;
 
 public abstract class JsonElement extends JSONType {
     public JsonElement(JSONType parent) {

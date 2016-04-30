@@ -1,6 +1,6 @@
-package com.suushiemaniac.util.json.value;
+package com.suushiemaniac.lang.json.value;
 
-import com.suushiemaniac.util.json.StringUtils;
+import com.suushiemaniac.lang.json.util.StringUtils;
 
 public class JsonString extends JSONType {
     private String value;
