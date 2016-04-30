@@ -94,7 +94,9 @@ public class JsonArray extends JsonElement {
         List<String> stringedList = new ArrayList<>();
 
         for (JSONType t : this.elements) {
-            stringedList.add(this.elements.size() > 1 ? t.toFormatString() : StringUtils.reduceTab(t.toFormatString()));
+            stringedList.add(this.elements.size() == 0 || (this.elements.size() == 1 && this.elements.get(0).deepSize() == 1)
+                    ? StringUtils.reduceTab(t.toFormatString())
+                    : t.toFormatString());
         }
 
         String borderBreak = stringedList.size() == 0 ? "" : (stringedList.size() == 1 && this.elements.get(0).deepSize() == 1 ? " " : "\n");
