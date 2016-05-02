@@ -108,16 +108,19 @@ public class JsonObject extends JsonElement {
         List<String> sortedKeys = new ArrayList<>(this.members.keySet());
         Collections.sort(sortedKeys, String::compareTo);
 
-        String tabbing = this.members.size() == 0 || (this.members.size() == 1 && this.getOnly().deepSize() == 1) ? "" : StringUtils.copy("\t", this.hierarchy() + 1);
+        String tabbing = this.members.size() <= 1 ? "" : StringUtils.copy("\t", this.hierarchy() + 1);
 
         for (String key : sortedKeys) {
             JSONType val = this.members.get(key);
-            stringedList.add(tabbing + key + " : " + StringUtils.reduceTab(val.toFormatString()));
+            stringedList.add(tabbing + key + ": " + StringUtils.reduceTab(val.toFormatString()));
         }
 
-        String borderBreak = stringedList.size() == 0 ? "" : (stringedList.size() == 1 && this.getOnly().deepSize() == 1 ? " " : "\n");
-        String closingTabs = stringedList.size() == 0 || (stringedList.size() == 1 && this.getOnly().deepSize() == 1) ? "" : StringUtils.copy("\t", this.hierarchy());
-        return StringUtils.copy("\t", this.hierarchy()) + "{" + borderBreak + String.join(",\n", stringedList) + borderBreak + closingTabs + "}";
+        String openTabbing = StringUtils.copy("\t", this.hierarchy() - (this.parent() instanceof JsonElement && this.parent().size() <= 1 ? 1 : 0));
+        //String borderBreak = stringedList.size() == 0 ? "" : (stringedList.size() == 1 && this.getOnly().deepSize() == 1 ? " " : "\n");
+        String borderBreak = stringedList.size() <= 1 ? "" : "\n";
+        //String closingTabs = stringedList.size() == 0 || (stringedList.size() == 1 && this.getOnly().deepSize() == 1) ? "" : StringUtils.copy("\t", this.hierarchy());
+        String closingTabs = stringedList.size() <= 1 ? "" : openTabbing;
+        return openTabbing + "{" + borderBreak + String.join(",\n", stringedList) + borderBreak + closingTabs + "}";
     }
 
     private JSONType getOnly() {

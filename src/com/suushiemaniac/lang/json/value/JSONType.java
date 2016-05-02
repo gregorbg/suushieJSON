@@ -12,6 +12,7 @@ public abstract class JSONType implements Iterable<JSONType> {
         private boolean hasRead;
 
         public SingleIterator(T element) {
+            this.hasRead = false;
             this.toRead = element;
         }
 
