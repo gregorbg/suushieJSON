@@ -96,6 +96,20 @@ public abstract class JSONType implements Iterable<JSONType> {
         throw new JsonNotIterableException();
     }
 
+    //TODO x3
+
+    public void remove(JSONType value) {
+        throw new JsonNotIterableException();
+    }
+
+    public void remove(int index) {
+        throw new JsonNotIterableException();
+    }
+
+    public void remove(String key) {
+        throw new JsonNotIterableException();
+    }
+
     public int size() {
         return 1;
     }
@@ -110,6 +124,11 @@ public abstract class JSONType implements Iterable<JSONType> {
 
     public String toFormatString() {
         return StringUtils.copy("\t", this.hierarchy()) + this.toString();
+    }
+
+    //TODO
+    public String toXMLString() {
+        return "";
     }
 
     public boolean booleanValue() {
