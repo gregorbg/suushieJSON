@@ -7,13 +7,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class JsonObject extends JsonElement {
-    private Map<String, JSONType> members;
+    private SortedMap<String, JSONType> members;
 
-    public JsonObject(Map<String, JSONType> members) {
+    public JsonObject(SortedMap<String, JSONType> members) {
         this(null, members);
     }
 
-    public JsonObject(JSONType parent, Map<String, JSONType> members) {
+    public JsonObject(JSONType parent, SortedMap<String, JSONType> members) {
         super(parent);
 
         for (Map.Entry<String, JSONType> jsonTypeEntry : members.entrySet()) jsonTypeEntry.getValue().setParent(this);
@@ -68,6 +68,16 @@ public class JsonObject extends JsonElement {
     }
 
     @Override
+    public void remove(String key) {
+        this.members.remove(key);
+    }
+
+    @Override
+    public void remove(JSONType value) {
+        this.members.remove(value.stringValue());
+    }
+
+    @Override
     public int size() {
         return this.members.size();
     }
@@ -92,16 +102,15 @@ public class JsonObject extends JsonElement {
 
     public String toString() {
         List<String> stringedList = new ArrayList<>();
-        List<String> sortedKeys = new ArrayList<>(this.members.keySet());
-        Collections.sort(sortedKeys, String::compareTo);
 
-        for (String key : sortedKeys) {
+        for (String key : this.members.keySet()) {
             stringedList.add(key + ":" + this.members.get(key).toString());
         }
 
         return "{" + String.join(",", stringedList) + "}";
     }
 
+    //TODO maybe simplify
     @Override
     public String toFormatString() {
         List<String> stringedList = new ArrayList<>();
@@ -121,6 +130,11 @@ public class JsonObject extends JsonElement {
         //String closingTabs = stringedList.size() == 0 || (stringedList.size() == 1 && this.getOnly().deepSize() == 1) ? "" : StringUtils.copy("\t", this.hierarchy());
         String closingTabs = stringedList.size() <= 1 ? "" : openTabbing;
         return openTabbing + "{" + borderBreak + String.join(",\n", stringedList) + borderBreak + closingTabs + "}";
+    }
+
+    @Override
+    public Collection<JSONType> collect() {
+        return this.members.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     private JSONType getOnly() {

@@ -4,6 +4,8 @@ import com.suushiemaniac.lang.json.exception.JsonValueTypeException;
 import com.suushiemaniac.lang.json.util.StringUtils;
 import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 public abstract class JSONType implements Iterable<JSONType> {
@@ -96,8 +98,6 @@ public abstract class JSONType implements Iterable<JSONType> {
         throw new JsonNotIterableException();
     }
 
-    //TODO x3
-
     public void remove(JSONType value) {
         throw new JsonNotIterableException();
     }
@@ -128,7 +128,7 @@ public abstract class JSONType implements Iterable<JSONType> {
 
     //TODO
     public String toXMLString() {
-        return "";
+        return this.toString();
     }
 
     public boolean booleanValue() {
@@ -154,5 +154,9 @@ public abstract class JSONType implements Iterable<JSONType> {
     @Override
     public Iterator<JSONType> iterator() {
         return new SingleIterator<>(this);
+    }
+
+    public Collection<JSONType> collect() {
+        return Collections.singletonList(this);
     }
 }

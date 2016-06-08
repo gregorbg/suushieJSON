@@ -3,9 +3,7 @@ package com.suushiemaniac.lang.json.value;
 import com.suushiemaniac.lang.json.util.StringUtils;
 import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class JsonArray extends JsonElement {
     private List<JSONType> elements;
@@ -59,6 +57,16 @@ public class JsonArray extends JsonElement {
     }
 
     @Override
+    public void remove(JSONType value) {
+        this.elements.remove(value);
+    }
+
+    @Override
+    public void remove(int index) {
+        this.elements.remove(index);
+    }
+
+    @Override
     public int size() {
         return this.elements.size();
     }
@@ -89,6 +97,7 @@ public class JsonArray extends JsonElement {
         return "[" + String.join(",", stringedList) + "]";
     }
 
+    //TODO maybe simplify
     @Override
     public String toFormatString() {
         List<String> stringedList = new ArrayList<>();
@@ -106,5 +115,10 @@ public class JsonArray extends JsonElement {
         //String closingTabs = stringedList.size() == 0 || (stringedList.size() == 1 && this.elements.get(0).deepSize() == 1) ? "" : StringUtils.copy("\t", this.hierarchy());
         String closingTabs = stringedList.size() <= 1 ? "" : openTabbing;
         return openTabbing + "[" + borderBreak + String.join(",\n", stringedList) + borderBreak + closingTabs + "]";
+    }
+
+    @Override
+    public Collection<JSONType> collect() {
+        return new ArrayList<>(this.elements);
     }
 }
