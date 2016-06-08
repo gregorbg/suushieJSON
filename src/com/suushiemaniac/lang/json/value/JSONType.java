@@ -70,6 +70,21 @@ public abstract class JSONType implements Iterable<JSONType> {
         throw new JsonNotIterableException();
     }
 
+    public JSONType getOrDefualt(JSONType keyIndex, JSONType defVal) {
+        JSONType gotten = this.get(keyIndex);
+        return gotten == null ? defVal : gotten;
+    }
+
+    public JSONType getOrDefault(String key, JSONType defVal) {
+        JSONType gotten = this.get(key);
+        return gotten == null ? defVal : gotten;
+    }
+
+    public JSONType getOrDefault(int index, JSONType defVal) {
+        JSONType gotten = this.get(index);
+        return gotten == null ? defVal : gotten;
+    }
+
     public void set(JSONType keyIndex, JSONType value) {
         throw new JsonNotIterableException();
     }
