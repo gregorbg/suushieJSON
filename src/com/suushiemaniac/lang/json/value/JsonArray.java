@@ -1,5 +1,6 @@
 package com.suushiemaniac.lang.json.value;
 
+import com.suushiemaniac.lang.json.JSON;
 import com.suushiemaniac.lang.json.util.StringUtils;
 import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 
@@ -67,6 +68,11 @@ public class JsonArray extends JsonElement {
     }
 
     @Override
+    public void clear() {
+        this.elements.clear();
+    }
+
+    @Override
     public int size() {
         return this.elements.size();
     }
@@ -103,18 +109,38 @@ public class JsonArray extends JsonElement {
         List<String> stringedList = new ArrayList<>();
 
         for (JSONType t : this.elements) {
-            //stringedList.add(this.elements.size() == 0 || (this.elements.size() == 1 && this.elements.get(0).deepSize() == 1)
-            //        ? StringUtils.reduceTab(t.toFormatString())
-            //        : t.toFormatString());
             stringedList.add(this.size() <= 1 ? StringUtils.reduceTab(t.toFormatString()) : t.toFormatString());
         }
 
         String openTabbing = StringUtils.copy("\t", this.hierarchy() - (this.parent() instanceof JsonElement && this.parent().size() <= 1 ? 1 : 0));
-        //String borderBreak = stringedList.size() == 0 ? "" : (stringedList.size() == 1 && this.elements.get(0).deepSize() == 1 ? " " : "\n");
         String borderBreak = stringedList.size() <= 1 ? "" : "\n";
-        //String closingTabs = stringedList.size() == 0 || (stringedList.size() == 1 && this.elements.get(0).deepSize() == 1) ? "" : StringUtils.copy("\t", this.hierarchy());
         String closingTabs = stringedList.size() <= 1 ? "" : openTabbing;
         return openTabbing + "[" + borderBreak + String.join(",\n", stringedList) + borderBreak + closingTabs + "]";
+    }
+
+    @Override
+    public String toXMLString() {
+        List<String> stringedList = new ArrayList<>();
+
+        String key = "array";
+        JSONType parent = this.parent();
+        if (parent instanceof JsonObject) {
+            for (JSONType parentKey : parent.keySet()) {
+                if (parent.get(parentKey).equals(this)) {
+                    key = parentKey.stringValue();
+                }
+            }
+        }
+
+        for (JSONType t : this.elements) {
+            String openTag = "<" + key + ">";
+            String closeTag = "</" + key + ">";
+
+            String val = t.toXMLString();
+            if (val.length() > 0) stringedList.add(openTag + val + closeTag);
+        }
+
+        return String.join("\n", stringedList);
     }
 
     @Override

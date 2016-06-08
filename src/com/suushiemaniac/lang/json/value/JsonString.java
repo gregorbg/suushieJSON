@@ -11,7 +11,7 @@ public class JsonString extends JSONType {
 
     public JsonString(JSONType parent, String value) {
         super(parent);
-        this.value = StringUtils.jsonWrap(value);
+        this.value = value;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class JsonString extends JSONType {
 
     @Override
     public String toString() {
-        return this.value;
+        return StringUtils.jsonWrap(this.value);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class JsonObject extends JsonElement {
 
     @Override
     public JSONType get(String key) {
-        return this.members.get(StringUtils.jsonWrap(key));
+        return this.members.get(key);
     }
 
     @Override
@@ -43,14 +43,15 @@ public class JsonObject extends JsonElement {
     @Override
     public void set(String key, JSONType value) {
         value.setParent(this);
-        this.members.put(StringUtils.jsonWrap(key), value);
+        this.members.put(key, value);
     }
 
     @Override
     public void set(JSONType value) {
         if (value instanceof JsonObject) this.members = ((JsonObject) value).members;
 
-        for (Map.Entry<String, JSONType> tEntry : this.members.entrySet()) tEntry.getValue().setParent(this);
+        for (Map.Entry<String, JSONType> tEntry : this.members.entrySet())
+            tEntry.getValue().setParent(this);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class JsonObject extends JsonElement {
     @Override
     public void add(String key, JSONType value) {
         value.setParent(this);
-        this.members.put(StringUtils.jsonWrap(key), value);
+        this.members.put(key, value);
     }
 
     @Override
@@ -75,6 +76,11 @@ public class JsonObject extends JsonElement {
     @Override
     public void remove(JSONType value) {
         this.members.remove(value.stringValue());
+    }
+
+    @Override
+    public void clear() {
+        this.members.clear();
     }
 
     @Override
@@ -104,7 +110,7 @@ public class JsonObject extends JsonElement {
         List<String> stringedList = new ArrayList<>();
 
         for (String key : this.members.keySet()) {
-            stringedList.add(key + ":" + this.members.get(key).toString());
+            stringedList.add(StringUtils.jsonWrap(key) + ":" + this.members.get(key).toString());
         }
 
         return "{" + String.join(",", stringedList) + "}";
@@ -114,22 +120,58 @@ public class JsonObject extends JsonElement {
     @Override
     public String toFormatString() {
         List<String> stringedList = new ArrayList<>();
-        List<String> sortedKeys = new ArrayList<>(this.members.keySet());
-        Collections.sort(sortedKeys, String::compareTo);
 
         String tabbing = this.members.size() <= 1 ? "" : StringUtils.copy("\t", this.hierarchy() + 1);
 
-        for (String key : sortedKeys) {
+        for (String key : this.members.keySet()) {
             JSONType val = this.members.get(key);
-            stringedList.add(tabbing + key + ": " + StringUtils.reduceTab(val.toFormatString()));
+            stringedList.add(tabbing + StringUtils.jsonWrap(key) + ": " + StringUtils.reduceTab(val.toFormatString()));
         }
 
         String openTabbing = StringUtils.copy("\t", this.hierarchy() - (this.parent() instanceof JsonElement && this.parent().size() <= 1 ? 1 : 0));
-        //String borderBreak = stringedList.size() == 0 ? "" : (stringedList.size() == 1 && this.getOnly().deepSize() == 1 ? " " : "\n");
         String borderBreak = stringedList.size() <= 1 ? "" : "\n";
-        //String closingTabs = stringedList.size() == 0 || (stringedList.size() == 1 && this.getOnly().deepSize() == 1) ? "" : StringUtils.copy("\t", this.hierarchy());
         String closingTabs = stringedList.size() <= 1 ? "" : openTabbing;
         return openTabbing + "{" + borderBreak + String.join(",\n", stringedList) + borderBreak + closingTabs + "}";
+    }
+
+    //TODO definitely simplify
+    @Override
+    public String toXMLString() {
+        List<String> stringedList = new ArrayList<>();
+
+        for (String key : this.members.keySet()) {
+            String tagKey = StringUtils.jsonUnwrap(key);
+
+            String openTag = "<" + tagKey + ">";
+            String closeTag = "</" + StringUtils.jsonUnwrap(key) + ">";
+
+            JSONType child = this.members.get(key);
+
+            if (child instanceof JsonObject) {
+                child = new JsonObject(child.parent(), new TreeMap<>(((JsonObject) child).members));
+                List<String> properties = new ArrayList<>();
+
+                for (JSONType childKey : child.keySet()) {
+                    JSONType childVal = child.get(childKey);
+
+                    if (childVal instanceof JsonElement) continue;
+
+                    properties.add(childKey.stringValue() + "=" + StringUtils.jsonWrap(childVal.toString()));
+                    child.remove(childKey);
+                }
+
+                tagKey += " " + String.join(" ", properties);
+            }
+
+            if (child instanceof JsonArray && child.size() > 0) {
+                openTag = closeTag = "";
+            }
+
+            String val = child.toXMLString();
+            stringedList.add(val.length() > 0 ? openTag + val + closeTag : "<" + tagKey + "/>");
+        }
+
+        return String.join("\n", stringedList);
     }
 
     @Override
@@ -137,8 +179,8 @@ public class JsonObject extends JsonElement {
         return this.members.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
-    private JSONType getOnly() {
-        if (this.members.size() > 1) return new JsonNull();
-        else return new ArrayList<>(this.members.entrySet()).get(0).getValue();
+    @Override
+    public Collection<JSONType> keySet() {
+        return this.members.keySet().stream().map(JsonString::new).collect(Collectors.toList());
     }
 }

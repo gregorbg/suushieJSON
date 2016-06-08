@@ -7,6 +7,7 @@ import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Set;
 
 public abstract class JSONType implements Iterable<JSONType> {
     private class SingleIterator<T> implements Iterator<T> {
@@ -125,6 +126,10 @@ public abstract class JSONType implements Iterable<JSONType> {
         throw new JsonNotIterableException();
     }
 
+    public void clear() {
+        throw new JsonNotIterableException();
+    }
+
     public int size() {
         return 1;
     }
@@ -173,5 +178,9 @@ public abstract class JSONType implements Iterable<JSONType> {
 
     public Collection<JSONType> collect() {
         return Collections.singletonList(this);
+    }
+
+    public Collection<JSONType> keySet() {
+        throw new JsonNotIterableException();
     }
 }
