@@ -6,9 +6,7 @@ import com.suushiemaniac.lang.json.value.*;
 import com.suushiemaniac.lang.json.value.JsonArray;
 import com.suushiemaniac.lang.json.value.JsonObject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JsonTypeReader extends JSONBaseVisitor<JSONType> {
@@ -42,7 +40,7 @@ public class JsonTypeReader extends JSONBaseVisitor<JSONType> {
 
     @Override
     public JSONType visitObject(JSONParser.ObjectContext ctx) {
-        Map<String, JSONType> members = new HashMap<>();
+        SortedMap<String, JSONType> members = new TreeMap<>();
 
         for (JSONParser.PairContext prCtx : ctx.pair()) {
             JSONType valValue = this.visit(prCtx.value());
