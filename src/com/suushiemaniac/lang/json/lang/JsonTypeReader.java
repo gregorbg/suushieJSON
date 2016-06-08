@@ -2,6 +2,7 @@ package com.suushiemaniac.lang.json.lang;
 
 import com.suushiemaniac.lang.json.lang.antlr.JSONBaseVisitor;
 import com.suushiemaniac.lang.json.lang.antlr.JSONParser;
+import com.suushiemaniac.lang.json.util.StringUtils;
 import com.suushiemaniac.lang.json.value.*;
 import com.suushiemaniac.lang.json.value.JsonArray;
 import com.suushiemaniac.lang.json.value.JsonObject;
@@ -45,7 +46,7 @@ public class JsonTypeReader extends JSONBaseVisitor<JSONType> {
         for (JSONParser.PairContext prCtx : ctx.pair()) {
             JSONType valValue = this.visit(prCtx.value());
 
-            members.put(prCtx.STRING().getText(), valValue);
+            members.put(StringUtils.jsonUnwrap(prCtx.STRING().getText()), valValue);
         }
 
         return new JsonObject(members);
