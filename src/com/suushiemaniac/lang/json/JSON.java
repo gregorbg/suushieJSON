@@ -4,6 +4,7 @@ import com.suushiemaniac.lang.json.lang.JsonReader;
 import com.suushiemaniac.lang.json.value.JSONType;
 import com.suushiemaniac.lang.json.value.JsonElement;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 public class JSON extends JSONType {
@@ -40,6 +41,26 @@ public class JSON extends JSONType {
         return this.root.get(key);
     }
 
+    @Override
+    public JSONType getOrDefault(int index, JSONType defVal) {
+        return this.root.getOrDefault(index, defVal);
+    }
+
+    @Override
+    public JSONType getOrDefault(String key, JSONType defVal) {
+        return this.root.getOrDefault(key, defVal);
+    }
+
+    @Override
+    public JSONType getOrDefualt(JSONType keyIndex, JSONType defVal) {
+        return this.root.getOrDefualt(keyIndex, defVal);
+    }
+
+    @Override
+    public void set(JSONType value) {
+        this.root.set(value);
+    }
+
     public void set(JSONType keyIndex, JSONType value) {
         this.root.set(keyIndex, value);
     }
@@ -65,6 +86,41 @@ public class JSON extends JSONType {
     }
 
     @Override
+    public void clear() {
+        this.root.clear();
+    }
+
+    @Override
+    public Collection<JSONType> collect() {
+        return this.root.collect();
+    }
+
+    @Override
+    public int hierarchy() {
+        return this.root.hierarchy();
+    }
+
+    @Override
+    public String val() {
+        return this.root.val();
+    }
+
+    @Override
+    public void remove(int index) {
+        this.root.remove(index);
+    }
+
+    @Override
+    public void remove(String key) {
+        this.root.remove(key);
+    }
+
+    @Override
+    public void remove(JSONType value) {
+        this.root.remove(value);
+    }
+
+    @Override
     public int size() {
         return this.root.size();
     }
@@ -85,5 +141,10 @@ public class JSON extends JSONType {
 
     public String toFormatString() {
         return this.root.toFormatString();
+    }
+
+    @Override
+    public String toXMLString() {
+        return this.root.toXMLString();
     }
 }
