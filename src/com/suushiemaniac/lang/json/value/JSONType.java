@@ -39,6 +39,8 @@ public abstract class JSONType implements Iterable<JSONType> {
 
     public abstract String toString();
 
+    public abstract boolean equals(Object other);
+
     public JSONType parent() {
         return this.parent;
     }
@@ -123,6 +125,10 @@ public abstract class JSONType implements Iterable<JSONType> {
     }
 
     public void remove(String key) {
+        throw new JsonNotIterableException();
+    }
+
+    public JSONType keyIndexOf(JSONType content) {
         throw new JsonNotIterableException();
     }
 

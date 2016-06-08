@@ -25,6 +25,12 @@ public class JsonString extends JSONType {
     }
 
     @Override
+    public boolean equals(Object other) {
+        return (other instanceof JsonString && ((JsonString) other).value.equals(this.value))
+                || (other instanceof String && other.equals(this.value));
+    }
+
+    @Override
     public void set(JSONType value) {
         if (value instanceof JsonString) this.value = value.stringValue();
     }

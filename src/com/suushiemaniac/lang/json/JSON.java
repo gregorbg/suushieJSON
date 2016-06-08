@@ -86,6 +86,11 @@ public class JSON extends JSONType {
     }
 
     @Override
+    public JSONType keyIndexOf(JSONType content) {
+        return this.root.keyIndexOf(content);
+    }
+
+    @Override
     public void clear() {
         this.root.clear();
     }
@@ -137,6 +142,11 @@ public class JSON extends JSONType {
 
     public String toString() {
         return this.root.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return this.root.equals(other);
     }
 
     public String toFormatString() {

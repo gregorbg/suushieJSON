@@ -23,6 +23,11 @@ public class JsonBoolean extends JSONType {
     }
 
     @Override
+    public boolean equals(Object other) {
+        return other instanceof JsonBoolean && ((JsonBoolean) other).value == this.value;
+    }
+
+    @Override
     public void set(JSONType value) {
         if (value instanceof JsonBoolean) this.value = value.booleanValue();
     }

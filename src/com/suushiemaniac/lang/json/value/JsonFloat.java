@@ -20,6 +20,11 @@ public class JsonFloat extends JsonNumber {
     }
 
     @Override
+    public boolean equals(Object other) {
+        return other instanceof JsonFloat && ((JsonFloat) other).value.floatValue() == this.value.floatValue();
+    }
+
+    @Override
     public void set(JSONType value) {
         if (value instanceof JsonFloat) this.value = value.floatValue();
     }

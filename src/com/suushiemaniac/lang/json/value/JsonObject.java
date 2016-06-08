@@ -79,6 +79,17 @@ public class JsonObject extends JsonElement {
     }
 
     @Override
+    public JSONType keyIndexOf(JSONType content) {
+        for (Map.Entry<String, JSONType> entry : this.members.entrySet()) {
+            if (entry.getValue().equals(content)) {
+                return new JsonString(entry.getKey());
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public void clear() {
         this.members.clear();
     }
@@ -114,6 +125,11 @@ public class JsonObject extends JsonElement {
         }
 
         return "{" + String.join(",", stringedList) + "}";
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof JsonObject && ((JsonObject) other).members.equals(this.members);
     }
 
     //TODO maybe simplify

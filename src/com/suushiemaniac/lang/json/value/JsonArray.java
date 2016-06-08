@@ -1,6 +1,5 @@
 package com.suushiemaniac.lang.json.value;
 
-import com.suushiemaniac.lang.json.JSON;
 import com.suushiemaniac.lang.json.util.StringUtils;
 import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 
@@ -68,6 +67,11 @@ public class JsonArray extends JsonElement {
     }
 
     @Override
+    public JSONType keyIndexOf(JSONType content) {
+        return new JsonInteger(this.elements.indexOf(content));
+    }
+
+    @Override
     public void clear() {
         this.elements.clear();
     }
@@ -101,6 +105,11 @@ public class JsonArray extends JsonElement {
         }
 
         return "[" + String.join(",", stringedList) + "]";
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof JsonArray && ((JsonArray) other).elements.equals(this.elements);
     }
 
     //TODO maybe simplify

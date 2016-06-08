@@ -20,6 +20,11 @@ public class JsonInteger extends JsonNumber {
     }
 
     @Override
+    public boolean equals(Object other) {
+        return other instanceof JsonInteger && ((JsonInteger) other).value.intValue() == this.value.intValue();
+    }
+
+    @Override
     public void set(JSONType value) {
         if (value instanceof JsonInteger) this.value = value.intValue();
     }
