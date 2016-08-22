@@ -1,11 +1,13 @@
 package com.suushiemaniac.lang.json.value;
 
+import com.suushiemaniac.lang.json.JSON;
+
 public class JsonInteger extends JsonNumber {
     public JsonInteger(Number value) {
         this(null, value);
     }
 
-    public JsonInteger(JSONType parent, Number value) {
+    public JsonInteger(JSON parent, Number value) {
         super(parent, value);
     }
 
@@ -25,7 +27,7 @@ public class JsonInteger extends JsonNumber {
     }
 
     @Override
-    public void set(JSONType value) {
+    public void set(JSON value) {
         if (value instanceof JsonInteger) this.value = value.intValue();
     }
 }

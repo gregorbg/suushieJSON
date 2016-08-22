@@ -1,11 +1,13 @@
 package com.suushiemaniac.lang.json.value;
 
-public class JsonNull extends JSONType {
+import com.suushiemaniac.lang.json.JSON;
+
+public class JsonNull extends JsonType {
     public JsonNull() {
         this(null);
     }
 
-    public JsonNull(JSONType parent) {
+    public JsonNull(JSON parent) {
         super(parent);
     }
 

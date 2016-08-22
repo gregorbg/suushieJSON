@@ -1,13 +1,15 @@
 package com.suushiemaniac.lang.json.value;
 
-public class JsonBoolean extends JSONType {
+import com.suushiemaniac.lang.json.JSON;
+
+public class JsonBoolean extends JsonType {
     private boolean value;
 
     public JsonBoolean(boolean value) {
         this(null, value);
     }
 
-    public JsonBoolean(JSONType parent, boolean value) {
+    public JsonBoolean(JSON parent, boolean value) {
         super(parent);
         this.value = value;
     }
@@ -28,7 +30,7 @@ public class JsonBoolean extends JSONType {
     }
 
     @Override
-    public void set(JSONType value) {
+    public void set(JSON value) {
         if (value instanceof JsonBoolean) this.value = value.booleanValue();
     }
 }

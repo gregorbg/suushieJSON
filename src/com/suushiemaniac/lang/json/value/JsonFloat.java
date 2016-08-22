@@ -1,11 +1,13 @@
 package com.suushiemaniac.lang.json.value;
 
+import com.suushiemaniac.lang.json.JSON;
+
 public class JsonFloat extends JsonNumber {
     public JsonFloat(Number value) {
         this(null, value);
     }
 
-    public JsonFloat(JSONType parent, Number value) {
+    public JsonFloat(JSON parent, Number value) {
         super(parent, value);
     }
 
@@ -25,7 +27,7 @@ public class JsonFloat extends JsonNumber {
     }
 
     @Override
-    public void set(JSONType value) {
+    public void set(JSON value) {
         if (value instanceof JsonFloat) this.value = value.floatValue();
     }
 }

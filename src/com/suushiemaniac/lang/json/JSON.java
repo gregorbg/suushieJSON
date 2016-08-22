@@ -1,160 +1,135 @@
 package com.suushiemaniac.lang.json;
 
 import com.suushiemaniac.lang.json.lang.JsonReader;
-import com.suushiemaniac.lang.json.value.JSONType;
-import com.suushiemaniac.lang.json.value.JsonElement;
 
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
-public class JSON extends JSONType {
-    private static JsonReader readerInst;
+public abstract class JSON implements Iterable<JSON> {
+	private static JsonReader readerInst;
 
-    private static JsonReader readerInst() {
-        if (readerInst == null) {
-            readerInst = new JsonReader();
+	private static JsonReader readerInst() {
+		if (readerInst == null)
+			readerInst = new JsonReader();
+
+		return readerInst;
+	}
+
+	public static JSON fromString(String json) {
+		return readerInst().parse(json);
+	}
+
+    protected JSON parent;
+
+    public JSON(JSON parent) {
+        this.parent = parent;
+    }
+
+    public JSON parent() {
+        return this.parent;
+    }
+
+	public void setParent(JSON parent) {
+		this.parent = parent;
+	}
+
+    public int hierarchy() {
+        int hierarchy = 0;
+        JSON parent = this.parent();
+
+        while (parent != null) {
+            parent = parent.parent();
+            hierarchy++;
         }
 
-        return readerInst;
+        return hierarchy;
     }
 
-    public static JSON fromJSONString(String json) {
-        return readerInst().parse(json);
-    }
-
-    private JsonElement root;
-
-    public JSON(JsonElement root) {
-        super(null);
-        this.root = root;
-    }
-
-    public JSONType get(JSONType indexKey) {
-        return this.root.get(indexKey);
-    }
-
-    public JSONType get(int index) {
-        return this.root.get(index);
-    }
-
-    public JSONType get(String key) {
-        return this.root.get(key);
-    }
-
-    @Override
-    public JSONType getOrDefault(int index, JSONType defVal) {
-        return this.root.getOrDefault(index, defVal);
-    }
-
-    @Override
-    public JSONType getOrDefault(String key, JSONType defVal) {
-        return this.root.getOrDefault(key, defVal);
-    }
-
-    @Override
-    public JSONType getOrDefualt(JSONType keyIndex, JSONType defVal) {
-        return this.root.getOrDefualt(keyIndex, defVal);
-    }
-
-    @Override
-    public void set(JSONType value) {
-        this.root.set(value);
-    }
-
-    public void set(JSONType keyIndex, JSONType value) {
-        this.root.set(keyIndex, value);
-    }
-
-    public void set(String key, JSONType value) {
-        this.root.set(key, value);
-    }
-
-    public void set(int index, JSONType value) {
-        this.root.set(index, value);
-    }
-
-    public void add(JSONType value) {
-        this.root.add(value);
-    }
-
-    public void add(JSONType keyIndex, JSONType value) {
-        this.root.add(keyIndex, value);
-    }
-
-    public void add(String key, JSONType value) {
-        this.root.add(key, value);
-    }
-
-    @Override
-    public JSONType keyIndexOf(JSONType content) {
-        return this.root.keyIndexOf(content);
-    }
-
-    @Override
-    public void clear() {
-        this.root.clear();
-    }
-
-    @Override
-    public Collection<JSONType> collect() {
-        return this.root.collect();
-    }
-
-    @Override
-    public int hierarchy() {
-        return this.root.hierarchy();
-    }
-
-    @Override
     public String val() {
-        return this.root.val();
+        return this.toString();
     }
 
-    @Override
-    public void remove(int index) {
-        this.root.remove(index);
-    }
+    public abstract String toString();
 
-    @Override
-    public void remove(String key) {
-        this.root.remove(key);
-    }
+    public abstract boolean equals(Object other);
 
-    @Override
-    public void remove(JSONType value) {
-        this.root.remove(value);
-    }
+    public abstract JSON get(JSON keyIndex);
 
-    @Override
-    public int size() {
-        return this.root.size();
-    }
+    public abstract JSON get(String key);
 
-    @Override
-    public int deepSize() {
-        return this.root.deepSize();
-    }
+    public abstract JSON get(int index);
 
-    @Override
-    public Iterator<JSONType> iterator() {
-        return this.root.iterator();
-    }
+	public JSON getOrDefault(JSON keyIndex, JSON defVal) {
+		JSON gotten = this.get(keyIndex);
+		return gotten == null ? defVal : gotten;
+	}
 
-    public String toString() {
-        return this.root.toString();
-    }
+	public JSON getOrDefault(String key, JSON defVal) {
+		JSON gotten = this.get(key);
+		return gotten == null ? defVal : gotten;
+	}
 
-    @Override
-    public boolean equals(Object other) {
-        return this.root.equals(other);
-    }
+	public JSON getOrDefault(int index, JSON defVal) {
+		JSON gotten = this.get(index);
+		return gotten == null ? defVal : gotten;
+	}
 
-    public String toFormatString() {
-        return this.root.toFormatString();
-    }
+	public abstract void set(JSON keyIndex, JSON value);
 
-    @Override
-    public String toXMLString() {
-        return this.root.toXMLString();
-    }
+	public abstract void set(String key, JSON value);
+
+	public abstract void set(int index, JSON value);
+
+	public abstract void set(JSON value);
+
+	public abstract void add(JSON value);
+
+	public abstract void add(JSON keyIndex, JSON value);
+
+	public abstract void add(String key, JSON value);
+
+	public abstract void add(int index, JSON value);
+
+	public abstract void remove(JSON value);
+
+	public abstract void remove(int index);
+
+	public abstract void remove(String key);
+
+	public abstract JSON keyIndexOf(JSON content);
+
+	public abstract void clear();
+
+	public abstract int size();
+
+	public abstract int deepSize();
+
+    public abstract String toFormatString();
+
+    public abstract String toXMLString();
+
+	public abstract boolean booleanValue();
+
+	public abstract int intValue();
+
+	public abstract float floatValue();
+
+	public abstract String stringValue();
+
+	public abstract Object nullValue();
+
+	public abstract Collection<JSON> collect();
+
+	public abstract Stream<JSON> stream();
+
+	public abstract Set<JSON> keySet();
+
+	public abstract Map<String, JSON> nativeMap();
+
+	public abstract List<JSON> nativeList();
+
+	public abstract Set<JSON> nativeSet();
 }

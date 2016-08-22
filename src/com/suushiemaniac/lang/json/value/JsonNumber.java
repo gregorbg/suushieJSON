@@ -1,9 +1,11 @@
 package com.suushiemaniac.lang.json.value;
 
-public abstract class JsonNumber extends JSONType {
+import com.suushiemaniac.lang.json.JSON;
+
+public abstract class JsonNumber extends JsonType {
     protected Number value;
 
-    public JsonNumber(JSONType parent, Number value) {
+    public JsonNumber(JSON parent, Number value) {
         super(parent);
         this.value = value;
     }

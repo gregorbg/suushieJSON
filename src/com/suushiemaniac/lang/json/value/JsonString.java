@@ -1,15 +1,16 @@
 package com.suushiemaniac.lang.json.value;
 
+import com.suushiemaniac.lang.json.JSON;
 import com.suushiemaniac.lang.json.util.StringUtils;
 
-public class JsonString extends JSONType {
+public class JsonString extends JsonType {
     private String value;
 
     public JsonString(String value) {
         this(null, value);
     }
 
-    public JsonString(JSONType parent, String value) {
+    public JsonString(JSON parent, String value) {
         super(parent);
         this.value = value;
     }
@@ -31,7 +32,7 @@ public class JsonString extends JSONType {
     }
 
     @Override
-    public void set(JSONType value) {
+    public void set(JSON value) {
         if (value instanceof JsonString) this.value = value.stringValue();
     }
 }
