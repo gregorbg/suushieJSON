@@ -27,12 +27,12 @@ public class JsonArray extends JsonElement {
     @Override
     public JSON get(JSON keyIndex) {
         if (keyIndex instanceof JsonNumber) return this.elements.get(keyIndex.intValue());
-        else throw new JsonNotIterableException();
+        else throw new JsonNotIterableException("Can't get child element by given JSON type. Expected: Integer, Found: " + keyIndex.type());
     }
 
 	@Override
 	public JSON get(String key) {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Can't get child element by string key");
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class JsonArray extends JsonElement {
 
 	@Override
 	public void set(String key, JSON value) {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Can't set list element by string key");
 	}
 
 	@Override
@@ -75,13 +75,13 @@ public class JsonArray extends JsonElement {
 		if (keyIndex instanceof JsonInteger) {
 			this.add(keyIndex.intValue(), value);
 		} else {
-			throw new JsonValueTypeException();
+			throw new JsonValueTypeException("Can't add child element by given JSON type. Expected: Integer, Found: " + keyIndex.type());
 		}
 	}
 
 	@Override
 	public void add(String key, JSON value) {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Can't add child element by string key");
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class JsonArray extends JsonElement {
 
 	@Override
 	public void remove(String key) {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Can't remove child element by string key");
 	}
 
 	@Override

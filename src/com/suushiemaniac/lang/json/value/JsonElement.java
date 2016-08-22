@@ -9,22 +9,22 @@ public abstract class JsonElement extends JSON {
     }
 
     public boolean booleanValue() {
-        throw new JsonValueTypeException();
+        throw new JsonValueTypeException("Can't access element classes as primitive type Boolean");
     }
 
     public int intValue() {
-        throw new JsonValueTypeException();
+        throw new JsonValueTypeException("Can't access element classes as primitive type Integer");
     }
 
     public float floatValue() {
-        throw new JsonValueTypeException();
+        throw new JsonValueTypeException("Can't access element classes as primitive type Float");
     }
 
     public String stringValue() {
-        throw new JsonValueTypeException();
+        throw new JsonValueTypeException("Can't access element classes as primitive type String");
     }
 
     public Object nullValue() {
-        throw new JsonValueTypeException();
+        throw new JsonValueTypeException("Can't access element classes as primitive type Null");
     }
 }

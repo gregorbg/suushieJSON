@@ -56,7 +56,11 @@ public abstract class JSON implements Iterable<JSON> {
         return hierarchy;
     }
 
-    public String val() {
+	public String type() {
+		return this.getClass().getSimpleName().replace("Json", "");
+	}
+
+	public String val() {
         return this.toString();
     }
 

@@ -35,67 +35,67 @@ public abstract class JsonType extends JSON {
 	}
 
 	public JSON get(JSON keyIndex) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't get child elements from " + this.type());
 	}
 
 	public JSON get(String key) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't get child elements from " + this.type());
 	}
 
 	public JSON get(int index) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't get child elements from " + this.type());
 	}
 
 	public void set(JSON keyIndex, JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't set type " + this.type() + " on key/index-based access");
 	}
 
 	public void set(String key, JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't set type " + this.type() + " on key-based access");
 	}
 
 	public void set(int index, JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't set type " + this.type() + " on index-based access");
 	}
 
 	public void set(JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Invalid type for setting. Expected: " + this.type() + ", Found: " + value.type());
 	}
 
 	public void add(JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't add to single value type " + this.type());
 	}
 
 	public void add(JSON keyIndex, JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't add to single value type " + this.type());
 	}
 
 	public void add(String key, JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't add to single value type " + this.type());
 	}
 
 	public void add(int index, JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't add to single value type " + this.type());
 	}
 
 	public void remove(JSON value) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't remove from single value type " + this.type());
 	}
 
 	public void remove(int index) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't remove from single value type " + this.type());
 	}
 
 	public void remove(String key) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't remove from single value type " + this.type());
 	}
 
 	public JSON keyIndexOf(JSON content) {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Single value types don't have any keys/indices");
 	}
 
 	public void clear() {
-		throw new JsonNotIterableException();
+		throw new JsonNotIterableException("Can't clear single value types");
 	}
 
 	public int size() {
@@ -115,23 +115,23 @@ public abstract class JsonType extends JSON {
 	}
 
 	public boolean booleanValue() {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Accessing by incompatible value. Expected: " + this.type() + ", Found: Boolean");
 	}
 
 	public int intValue() {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Accessing by incompatible value. Expected: " + this.type() + ", Found: Integer");
 	}
 
 	public float floatValue() {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Accessing by incompatible value. Expected: " + this.type() + ", Found: Float");
 	}
 
 	public String stringValue() {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Accessing by incompatible value. Expected: " + this.type() + ", Found: String");
 	}
 
 	public Object nullValue() {
-		throw new JsonValueTypeException();
+		throw new JsonValueTypeException("Accessing by incompatible value. Expected: " + this.type() + ", Found: Null");
 	}
 
 	public Collection<JSON> collect() {
@@ -139,7 +139,7 @@ public abstract class JsonType extends JSON {
 	}
 
 	public Set<JSON> keySet() {
-		throw new JsonNotIterableException();
+		return Collections.emptySet();
 	}
 
 	@Override
