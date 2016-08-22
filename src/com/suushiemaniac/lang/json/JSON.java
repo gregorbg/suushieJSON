@@ -1,11 +1,11 @@
 package com.suushiemaniac.lang.json;
 
 import com.suushiemaniac.lang.json.lang.JsonReader;
+import com.suushiemaniac.lang.json.value.JsonArray;
+import com.suushiemaniac.lang.json.value.JsonObject;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 public abstract class JSON implements Iterable<JSON> {
@@ -20,6 +20,14 @@ public abstract class JSON implements Iterable<JSON> {
 
 	public static JSON fromString(String json) {
 		return readerInst().parse(json);
+	}
+
+	public static JSON emptyArray() {
+		return new JsonArray(new ArrayList<>());
+	}
+
+	public static JSON emptyObject() {
+		return new JsonObject(new TreeMap<>());
 	}
 
     protected JSON parent;
