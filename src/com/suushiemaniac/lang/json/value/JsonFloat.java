@@ -16,7 +16,17 @@ public class JsonFloat extends JsonNumber {
         return this.value.floatValue();
     }
 
-    @Override
+	@Override
+	public int intValue() {
+		return this.value.intValue();
+	}
+
+	@Override
+	public String stringValue() {
+		return "" + this.value.floatValue();
+	}
+
+	@Override
     public String toString() {
         return String.valueOf(this.value.floatValue());
     }

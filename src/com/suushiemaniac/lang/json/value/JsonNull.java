@@ -16,7 +16,27 @@ public class JsonNull extends JsonType {
         return null;
     }
 
-    public String toString() {
+    @Override
+    public String stringValue() {
+        return "null";
+    }
+
+	@Override
+	public float floatValue() {
+		return 0f;
+	}
+
+	@Override
+	public int intValue() {
+		return 0;
+	}
+
+	@Override
+	public boolean booleanValue() {
+		return false;
+	}
+
+	public String toString() {
         return "null";
     }
 

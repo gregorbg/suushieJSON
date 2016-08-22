@@ -6,7 +6,6 @@ import com.suushiemaniac.lang.json.util.StringUtils;
 import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JsonArray extends JsonElement {
@@ -27,12 +26,16 @@ public class JsonArray extends JsonElement {
     @Override
     public JSON get(JSON keyIndex) {
         if (keyIndex instanceof JsonNumber) return this.elements.get(keyIndex.intValue());
-        else throw new JsonNotIterableException("Can't get child element by given JSON type. Expected: Integer, Found: " + keyIndex.type());
+        else throw new JsonNotIterableException("Can't get child element by given JSON type. Expected: Number, Found: " + keyIndex.type());
     }
 
 	@Override
 	public JSON get(String key) {
-		throw new JsonValueTypeException("Can't get child element by string key");
+		try {
+			return this.elements.get(Integer.parseInt(key));
+		} catch (NumberFormatException e) {
+			throw new JsonValueTypeException("Can't get child element by non-numeric string key " + key);
+		}
 	}
 
 	@Override
@@ -48,7 +51,12 @@ public class JsonArray extends JsonElement {
 
 	@Override
 	public void set(String key, JSON value) {
-		throw new JsonValueTypeException("Can't set list element by string key");
+		try {
+			this.elements.set(Integer.parseInt(key), value);
+			value.setParent(this);
+		} catch (NumberFormatException e) {
+			throw new JsonValueTypeException("Can't set list element by non-numeric string key " + key);
+		}
 	}
 
 	@Override
@@ -72,22 +80,27 @@ public class JsonArray extends JsonElement {
 
 	@Override
 	public void add(JSON keyIndex, JSON value) {
-		if (keyIndex instanceof JsonInteger) {
+		if (keyIndex instanceof JsonNumber) {
 			this.add(keyIndex.intValue(), value);
 		} else {
-			throw new JsonValueTypeException("Can't add child element by given JSON type. Expected: Integer, Found: " + keyIndex.type());
+			throw new JsonValueTypeException("Can't add child element by given JSON type. Expected: Number, Found: " + keyIndex.type());
 		}
 	}
 
 	@Override
 	public void add(String key, JSON value) {
-		throw new JsonValueTypeException("Can't add child element by string key");
+		try {
+			this.elements.add(Integer.parseInt(key), value);
+			value.setParent(this);
+		} catch (NumberFormatException e) {
+			throw new JsonValueTypeException("Can't add child element by non-numeric string key " + key);
+		}
 	}
 
 	@Override
 	public void add(int index, JSON value) {
-		value.setParent(this);
 		this.elements.add(index, value);
+		value.setParent(this);
 	}
 
 	@Override

@@ -19,7 +19,22 @@ public class JsonBoolean extends JsonType {
         return this.value;
     }
 
-    @Override
+	@Override
+	public String stringValue() {
+		return "" + this.value;
+	}
+
+	@Override
+	public int intValue() {
+		return this.value ? 1 : 0;
+	}
+
+	@Override
+	public float floatValue() {
+		return this.value ? 1f : 0f;
+	}
+
+	@Override
     public String toString() {
         return String.valueOf(this.value);
     }

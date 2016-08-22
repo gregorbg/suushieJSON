@@ -12,12 +12,17 @@ public class JsonString extends JsonType {
 
     public JsonString(JSON parent, String value) {
         super(parent);
-        this.value = value;
+        this.value = StringUtils.jsonUnwrap(value);
     }
 
     @Override
     public String stringValue() {
         return this.value;
+    }
+
+    @Override
+    public boolean booleanValue() {
+        return this.value.length() > 0;
     }
 
     @Override

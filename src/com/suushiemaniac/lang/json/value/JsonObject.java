@@ -25,8 +25,11 @@ public class JsonObject extends JsonElement {
 
     @Override
     public JSON get(JSON keyIndex) {
-        if (keyIndex instanceof JsonString) return this.members.get(keyIndex.stringValue());
-        else throw new JsonNotIterableException("Can't get child element by given JSON type. Expected: String, Found: " + keyIndex.type());
+    	try {
+    		return this.members.get(keyIndex.stringValue());
+		} catch (JsonNotIterableException e) {
+			throw new JsonNotIterableException("Can't get child element by given JSON type. Expected: String, Found: " + keyIndex.type());
+		}
     }
 
     @Override
@@ -36,7 +39,7 @@ public class JsonObject extends JsonElement {
 
     @Override
     public JSON get(int index) {
-        throw new JsonNotIterableException("Can't get child element by integer key");
+        return this.members.get(String.valueOf(index));
     }
 
     @Override
@@ -56,7 +59,7 @@ public class JsonObject extends JsonElement {
     @Override
     public void set(int index, JSON value) {
         value.setParent(this);
-        this.members.put("" + index, value);
+        this.members.put(String.valueOf(index), value);
     }
 
     @Override
@@ -89,7 +92,7 @@ public class JsonObject extends JsonElement {
     @Override
     public void add(int index, JSON value) {
 		value.setParent(this);
-		this.members.put("" + index, value);
+		this.members.put(String.valueOf(index), value);
     }
 
     @Override
