@@ -4,7 +4,7 @@ import com.suushiemaniac.lang.json.JSON;
 import com.suushiemaniac.lang.json.exception.JsonValueTypeException;
 
 import java.util.*;
-import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class JsonElement extends JSON {
@@ -21,6 +21,7 @@ public abstract class JsonElement extends JSON {
 			return new JsonObject(jsonMap);
 		} else if (nativeObj instanceof List || nativeObj instanceof Set) {
 			Collection nativeCollection = (Collection) nativeObj;
+
 			List<JSON> jsonList = new ArrayList<>();
 
 			for (Object element : nativeCollection) {
@@ -28,6 +29,8 @@ public abstract class JsonElement extends JSON {
 			}
 
 			return new JsonArray(jsonList);
+		} else if (nativeObj instanceof Object[]) {
+			return JsonElement.fromNative(Arrays.stream((Object[]) nativeObj).collect(Collectors.toList()));
 		}
 
 		return null;
@@ -41,6 +44,20 @@ public abstract class JsonElement extends JSON {
     public Stream<JSON> stream() {
         return this.collect().stream();
     }
+
+	@Override
+	public int depth() {
+		int maxDepth = 0;
+
+		for (JSON j : this.collect()) {
+			int currentDepth = j.depth() + 1;
+
+			if (currentDepth > maxDepth)
+				maxDepth = currentDepth;
+		}
+
+		return maxDepth;
+	}
 
     public boolean booleanValue() {
         throw new JsonValueTypeException("Can't access element classes as primitive type Boolean");

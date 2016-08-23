@@ -34,7 +34,7 @@ public abstract class JSON implements Iterable<JSON> {
 	}
 
 	public static JSON fromFile(File file) {
-		return fromFile(file.toPath());
+		return JSON.fromFile(file.toPath());
 	}
 
 	public static JSON fromFile(Path path) {
@@ -47,10 +47,12 @@ public abstract class JSON implements Iterable<JSON> {
 	}
 
 	public static JSON fromNative(Object nativeObj) {
-		if (nativeObj instanceof Map || nativeObj instanceof List || nativeObj instanceof Set) {
-			return JsonElement.fromNative(nativeObj);
-		} else if (nativeObj instanceof Boolean || nativeObj instanceof Float || nativeObj instanceof Integer || nativeObj instanceof Void || nativeObj == null || nativeObj instanceof String) {
+		if (nativeObj instanceof JSON) {
+			return (JSON) nativeObj;
+		} else if (nativeObj instanceof Boolean || nativeObj instanceof Float || nativeObj instanceof Integer || nativeObj instanceof String || nativeObj == null) {
 			return JsonType.fromNative(nativeObj);
+		} else if (nativeObj instanceof Map || nativeObj instanceof List || nativeObj instanceof Set || nativeObj instanceof Object[]) {
+			return JsonElement.fromNative(nativeObj);
 		}
 
 		return null;
@@ -151,6 +153,8 @@ public abstract class JSON implements Iterable<JSON> {
 
 	public abstract int size();
 
+	public abstract int depth();
+
 	public abstract int deepSize();
 
     public abstract String toFormatString();
@@ -167,13 +171,15 @@ public abstract class JSON implements Iterable<JSON> {
 
 	public abstract Object nullValue();
 
-	public abstract Object toNative();
-
 	public abstract Collection<JSON> collect();
 
 	public abstract Stream<JSON> stream();
 
 	public abstract Set<JSON> keySet();
+
+	public abstract Object toNative();
+
+	public abstract Set<String> nativeKeySet();
 
 	public abstract Map<String, Object> nativeMap();
 

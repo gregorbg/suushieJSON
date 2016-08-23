@@ -227,7 +227,12 @@ public class JsonObject extends JsonElement {
         return this.nativeMap();
     }
 
-    @Override
+	@Override
+	public Set<String> nativeKeySet() {
+		return this.members.keySet();
+	}
+
+	@Override
     public Collection<JSON> collect() {
         return this.members.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toSet());
     }

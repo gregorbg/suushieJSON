@@ -134,7 +134,7 @@ public class JsonArray extends JsonElement {
         return this.elements.size();
     }
 
-    @Override
+	@Override
     public int deepSize() {
         int deepSize = 0;
 
@@ -169,12 +169,12 @@ public class JsonArray extends JsonElement {
         List<String> stringedList = new ArrayList<>();
 
         for (JSON t : this.elements)
-			stringedList.add(this.size() <= 1 ? StringUtils.reduceTab(t.toFormatString()) : t.toFormatString());
+			stringedList.add(this.size() <= 1 || this.depth() <= 1 ? StringUtils.reduceTab(t.toFormatString()) : t.toFormatString());
 
         String openTabbing = StringUtils.copy("\t", this.hierarchy() - (this.parent() instanceof JsonElement && this.parent().size() <= 1 ? 1 : 0));
-        String borderBreak = stringedList.size() <= 1 ? "" : "\n";
-        String closingTabs = stringedList.size() <= 1 ? "" : openTabbing;
-        return openTabbing + "[" + borderBreak + String.join(",\n", stringedList) + borderBreak + closingTabs + "]";
+        String borderBreak = stringedList.size() <= 1 || this.depth() <= 1 ? "" : "\n";
+        String closingTabs = stringedList.size() <= 1 || this.depth() <= 1 ? "" : openTabbing;
+        return openTabbing + "[" + borderBreak + String.join("," + borderBreak, stringedList) + borderBreak + closingTabs + "]";
     }
 
     @Override
@@ -205,6 +205,11 @@ public class JsonArray extends JsonElement {
 	@Override
 	public Object toNative() {
 		return this.nativeList();
+	}
+
+	@Override
+	public Set<String> nativeKeySet() {
+		return this.nativeMap().keySet();
 	}
 
 	@Override

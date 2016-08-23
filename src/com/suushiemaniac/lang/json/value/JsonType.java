@@ -16,10 +16,10 @@ public abstract class JsonType extends JSON {
 			return new JsonFloat((Float) nativeObj);
 		} else if (nativeObj instanceof Integer) {
 			return new JsonInteger((Integer) nativeObj);
-		} else if (nativeObj instanceof Void || nativeObj == null) {
-			return new JsonNull();
 		} else if (nativeObj instanceof String) {
 			return new JsonString((String) nativeObj);
+		} else if (nativeObj == null) {
+			return new JsonNull();
 		}
 
 		return null;
@@ -118,6 +118,11 @@ public abstract class JsonType extends JSON {
 		return 1;
 	}
 
+	@Override
+	public int depth() {
+		return 0;
+	}
+
 	public int deepSize() {
 		return 1;
 	}
@@ -155,6 +160,11 @@ public abstract class JsonType extends JSON {
 	}
 
 	public Set<JSON> keySet() {
+		return Collections.emptySet();
+	}
+
+	@Override
+	public Set<String> nativeKeySet() {
 		return Collections.emptySet();
 	}
 
