@@ -1,10 +1,21 @@
 package com.suushiemaniac.lang.json;
 
 import com.suushiemaniac.lang.json.lang.JsonReader;
+import com.suushiemaniac.lang.json.lang.antlr.JSONParser;
 import com.suushiemaniac.lang.json.value.JsonArray;
+import com.suushiemaniac.lang.json.value.JsonElement;
 import com.suushiemaniac.lang.json.value.JsonObject;
+import com.suushiemaniac.lang.json.value.JsonType;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.FloatBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -20,6 +31,29 @@ public abstract class JSON implements Iterable<JSON> {
 
 	public static JSON fromString(String json) {
 		return readerInst().parse(json);
+	}
+
+	public static JSON fromFile(File file) {
+		return fromFile(file.toPath());
+	}
+
+	public static JSON fromFile(Path path) {
+		try {
+			return JSON.fromString(new String(Files.readAllBytes(path)));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static JSON fromNative(Object nativeObj) {
+		if (nativeObj instanceof Map || nativeObj instanceof List || nativeObj instanceof Set) {
+			return JsonElement.fromNative(nativeObj);
+		} else if (nativeObj instanceof Boolean || nativeObj instanceof Float || nativeObj instanceof Integer || nativeObj instanceof Void || nativeObj instanceof String) {
+			return JsonType.fromNative(nativeObj);
+		}
+
+		return null;
 	}
 
 	public static JSON emptyArray() {
@@ -133,15 +167,17 @@ public abstract class JSON implements Iterable<JSON> {
 
 	public abstract Object nullValue();
 
+	public abstract Object toNative();
+
 	public abstract Collection<JSON> collect();
 
 	public abstract Stream<JSON> stream();
 
 	public abstract Set<JSON> keySet();
 
-	public abstract Map<String, JSON> nativeMap();
+	public abstract Map<String, Object> nativeMap();
 
-	public abstract List<JSON> nativeList();
+	public abstract List<Object> nativeList();
 
-	public abstract Set<JSON> nativeSet();
+	public abstract Set<Object> nativeSet();
 }

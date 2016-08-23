@@ -26,7 +26,12 @@ public class JsonInteger extends JsonNumber {
 		return "" + this.value.intValue();
 	}
 
-	@Override
+    @Override
+    public Object toNative() {
+        return this.intValue();
+    }
+
+    @Override
     public String toString() {
         return String.valueOf(this.value.intValue());
     }

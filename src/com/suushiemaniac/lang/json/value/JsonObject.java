@@ -223,13 +223,13 @@ public class JsonObject extends JsonElement {
     }
 
     @Override
-    public Collection<JSON> collect() {
-        return this.nativeList();
+    public Object toNative() {
+        return this.nativeMap();
     }
 
     @Override
-    public Stream<JSON> stream() {
-        return this.collect().stream();
+    public Collection<JSON> collect() {
+        return this.members.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toSet());
     }
 
     @Override
@@ -238,17 +238,22 @@ public class JsonObject extends JsonElement {
     }
 
     @Override
-    public Map<String, JSON> nativeMap() {
-        return new TreeMap<>(this.members);
+    public Map<String, Object> nativeMap() {
+        SortedMap<String, Object> nativeMap = new TreeMap<>();
+
+        for (String key : this.members.keySet())
+        	nativeMap.put(key, this.members.get(key).toNative());
+
+        return nativeMap;
     }
 
     @Override
-    public List<JSON> nativeList() {
-		return this.members.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+    public List<Object> nativeList() {
+		return this.nativeMap().entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     @Override
-    public Set<JSON> nativeSet() {
-		return this.members.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toSet());
+    public Set<Object> nativeSet() {
+		return this.nativeMap().entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toSet());
     }
 }

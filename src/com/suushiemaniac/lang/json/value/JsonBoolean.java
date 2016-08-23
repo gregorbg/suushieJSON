@@ -25,6 +25,11 @@ public class JsonBoolean extends JsonType {
 	}
 
 	@Override
+	public Object toNative() {
+		return this.booleanValue();
+	}
+
+	@Override
 	public int intValue() {
 		return this.value ? 1 : 0;
 	}

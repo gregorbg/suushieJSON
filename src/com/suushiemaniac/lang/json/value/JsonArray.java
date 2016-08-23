@@ -6,6 +6,7 @@ import com.suushiemaniac.lang.json.util.StringUtils;
 import com.suushiemaniac.lang.json.exception.JsonNotIterableException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JsonArray extends JsonElement {
@@ -201,15 +202,15 @@ public class JsonArray extends JsonElement {
         return String.join("\n", stringedList);
     }
 
-    @Override
-    public Collection<JSON> collect() {
-        return this.nativeList();
-    }
+	@Override
+	public Object toNative() {
+		return this.nativeList();
+	}
 
 	@Override
-	public Stream<JSON> stream() {
-		return this.elements.stream();
-	}
+    public Collection<JSON> collect() {
+        return new ArrayList<>(this.elements);
+    }
 
 	@Override
     public Set<JSON> keySet() {
@@ -223,23 +224,23 @@ public class JsonArray extends JsonElement {
     }
 
 	@Override
-	public Map<String, JSON> nativeMap() {
-		Map<String, JSON> nativeMap = new HashMap<>();
+	public Map<String, Object> nativeMap() {
+		Map<String, Object> nativeMap = new HashMap<>();
 
 		for (int i = 0; i < this.elements.size(); i++) {
-			nativeMap.put("" + i, this.elements.get(i));
+			nativeMap.put("" + i, this.elements.get(i).toNative());
 		}
 
 		return nativeMap;
 	}
 
 	@Override
-	public List<JSON> nativeList() {
-		return new ArrayList<>(this.elements);
+	public List<Object> nativeList() {
+		return this.elements.stream().map(JSON::toNative).collect(Collectors.toList());
 	}
 
 	@Override
-	public Set<JSON> nativeSet() {
-		return new HashSet<>(this.elements);
+	public Set<Object> nativeSet() {
+		return this.elements.stream().map(JSON::toNative).collect(Collectors.toSet());
 	}
 }

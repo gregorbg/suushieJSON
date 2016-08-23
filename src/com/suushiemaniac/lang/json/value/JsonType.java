@@ -9,6 +9,22 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public abstract class JsonType extends JSON {
+	public static JSON fromNative(Object nativeObj) {
+		if (nativeObj instanceof Boolean) {
+			return new JsonBoolean((Boolean) nativeObj);
+		} else if (nativeObj instanceof Float) {
+			return new JsonFloat((Float) nativeObj);
+		} else if (nativeObj instanceof Integer) {
+			return new JsonInteger((Integer) nativeObj);
+		} else if (nativeObj instanceof Void) {
+			return new JsonNull();
+		} else if (nativeObj instanceof String) {
+			return new JsonString((String) nativeObj);
+		}
+
+		return null;
+	}
+
 	public class SingleIterator<T> implements Iterator<T> {
 		private T toRead;
 		private boolean hasRead;
@@ -30,7 +46,7 @@ public abstract class JsonType extends JSON {
 		}
 	}
 
-	public JsonType(JSON parent) {
+	protected JsonType(JSON parent) {
 		super(parent);
 	}
 
@@ -148,17 +164,17 @@ public abstract class JsonType extends JSON {
 	}
 
 	@Override
-	public Map<String, JSON> nativeMap() {
+	public Map<String, Object> nativeMap() {
 		throw new JsonNotIterableException();
 	}
 
 	@Override
-	public List<JSON> nativeList() {
+	public List<Object> nativeList() {
 		return Collections.singletonList(this);
 	}
 
 	@Override
-	public Set<JSON> nativeSet() {
+	public Set<Object> nativeSet() {
 		return Collections.singleton(this);
 	}
 

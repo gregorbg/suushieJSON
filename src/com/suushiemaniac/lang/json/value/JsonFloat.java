@@ -27,6 +27,11 @@ public class JsonFloat extends JsonNumber {
 	}
 
 	@Override
+	public Object toNative() {
+		return this.floatValue();
+	}
+
+	@Override
     public String toString() {
         return String.valueOf(this.value.floatValue());
     }

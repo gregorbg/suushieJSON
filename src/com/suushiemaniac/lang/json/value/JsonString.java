@@ -21,6 +21,11 @@ public class JsonString extends JsonType {
     }
 
     @Override
+    public Object toNative() {
+        return this.stringValue();
+    }
+
+    @Override
     public boolean booleanValue() {
         return this.value.length() > 0;
     }

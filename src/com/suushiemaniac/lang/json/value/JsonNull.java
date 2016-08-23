@@ -16,7 +16,12 @@ public class JsonNull extends JsonType {
         return null;
     }
 
-    @Override
+	@Override
+	public Object toNative() {
+		return this.nullValue();
+	}
+
+	@Override
     public String stringValue() {
         return "null";
     }
