@@ -16,7 +16,7 @@ public abstract class JsonType extends JSON {
 			return new JsonFloat((Float) nativeObj);
 		} else if (nativeObj instanceof Integer) {
 			return new JsonInteger((Integer) nativeObj);
-		} else if (nativeObj instanceof Void) {
+		} else if (nativeObj instanceof Void || nativeObj == null) {
 			return new JsonNull();
 		} else if (nativeObj instanceof String) {
 			return new JsonString((String) nativeObj);

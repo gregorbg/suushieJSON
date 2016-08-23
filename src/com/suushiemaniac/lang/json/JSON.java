@@ -49,7 +49,7 @@ public abstract class JSON implements Iterable<JSON> {
 	public static JSON fromNative(Object nativeObj) {
 		if (nativeObj instanceof Map || nativeObj instanceof List || nativeObj instanceof Set) {
 			return JsonElement.fromNative(nativeObj);
-		} else if (nativeObj instanceof Boolean || nativeObj instanceof Float || nativeObj instanceof Integer || nativeObj instanceof Void || nativeObj instanceof String) {
+		} else if (nativeObj instanceof Boolean || nativeObj instanceof Float || nativeObj instanceof Integer || nativeObj instanceof Void || nativeObj == null || nativeObj instanceof String) {
 			return JsonType.fromNative(nativeObj);
 		}
 
