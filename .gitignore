@@ -1,5 +1,7 @@
 *.jar
 .idea/
+.gradle/
 out/
+build/
 *.iml
 src/Main.java
