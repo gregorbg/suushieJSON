@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.js.resolve.JsPlatform
 
 plugins {
-    kotlin("jvm") version "1.2.71"
+    kotlin("jvm") version "1.3.0"
     antlr
     `maven-publish`
 }
@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
     antlr("org.antlr:antlr4:4.7+")
 }
 
@@ -27,7 +27,7 @@ tasks {
     create<Jar>("sourcesJar") {
         classifier = "sources"
 
-        from(java.sourceSets["main"].output)
+        from(sourceSets["main"].output)
         dependsOn("classes")
     }
 
@@ -41,8 +41,8 @@ tasks {
 }
 
 kotlin.sourceSets {
-    getByName("main") {
-        kotlin.exclude("Main.kt")
+    forEach {
+        it.kotlin.exclude("Main.kt")
     }
 }
 
